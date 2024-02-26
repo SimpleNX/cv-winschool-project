@@ -2,6 +2,7 @@
 
 import cv2 as cv
 import numpy as np
+import math
 
 #Reading the videos and then the frames
 #And then applying the required processes.
@@ -13,16 +14,16 @@ def Process(vidpath):
     subtract = cv.createBackgroundSubtractorMOG2()
     cond = 1
     #Kernel for cleaning operation
-    structureKernel = cv.getStructuringElement(cv.MORPH_ERODE, (5,5))
+    structureKernel = cv.getStructuringElement(cv.MORPH_ERODE, (6,6))
 
 
     while True:
 
-        cond, frame = video.read()
+        cond, frameorg = video.read()
 
-        frameorg = subtract.apply(frame)#background_subtraction
+        frame = subtract.apply(frameorg)#background_subtraction
 
-        frame = cv.erode(frameorg, structureKernel, iterations=2)#cleaning the image by erosion
+        frame = cv.erode(frame, structureKernel, iterations=3)#cleaning the image by erosion
 
         #gray = cv.cvtColor(frame, cv.COLOR_BGR2GRAY) Frame is already grayscale.
         #Applying Sobel Filters to calculate the gradients and find the edges.
@@ -32,13 +33,16 @@ def Process(vidpath):
 
         abs_gx = cv.convertScaleAbs(gx)
         abs_gy = cv.convertScaleAbs(gy)
-        grad = cv.addWeighted(abs_gx, 0.5, abs_gy, 0.5, 0)
+        frame = cv.addWeighted(abs_gx, 0.5, abs_gy, 0.5, 0)
 
         #Detecting the straight lines in the image.
         #And drawing them on the original frame
-        lines = cv.HoughLinesP(grad, 1, np.pi/180, 150, minLineLength=50, maxLineGap=50)
-        print(lines)
+        lines = cv.HoughLinesP(frame, 1, np.pi/180, 220, minLineLength=100, maxLineGap=70)
 
+        if lines is not None:
+            for i in range(0 , len(lines)):
+                line = lines[i][0]
+                cv.line(frameorg, (line[0], line[1]), (line[2], line[3]), (255,0,0), 2, cv.LINE_AA)
 
 
         cv.imshow("Edged", frameorg)
