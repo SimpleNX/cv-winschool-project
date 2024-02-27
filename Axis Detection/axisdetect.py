@@ -16,20 +16,18 @@ def Process(vidpath):
     #Kernel for cleaning operation
     structureKernel = cv.getStructuringElement(cv.MORPH_ERODE, (6,6))
 
-
     while True:
 
         cond, frameorg = video.read()
 
-        frame = subtract.apply(frameorg)#background_subtraction
+        frame = subtract.apply(frameorg)#background subtraction
 
         frame = cv.erode(frame, structureKernel, iterations=3)#cleaning the image by erosion
 
-        #gray = cv.cvtColor(frame, cv.COLOR_BGR2GRAY) Frame is already grayscale.
         #Applying Sobel Filters to calculate the gradients and find the edges.
 
-        gx = cv.Sobel(frame, cv.CV_16S, 1, 0, ksize=3, scale=1, delta=0, borderType=cv.BORDER_DEFAULT)
-        gy = cv.Sobel(frame, cv.CV_16S, 0, 1, ksize=3, scale=1, delta=0, borderType=cv.BORDER_DEFAULT)
+        gx = cv.Scharr(frame, cv.CV_16S, 1, 0, scale=1, delta=0, borderType=cv.BORDER_DEFAULT)
+        gy = cv.Scharr(frame, cv.CV_16S, 0, 1, scale=1, delta=0, borderType=cv.BORDER_DEFAULT)
 
         abs_gx = cv.convertScaleAbs(gx)
         abs_gy = cv.convertScaleAbs(gy)
