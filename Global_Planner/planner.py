@@ -2,11 +2,13 @@ import numpy as np
 import cv2 as cv
 import math
 
+
 class Node:
     def __init__(self, x_cd, y_cd, refpar):
         self.x_cd = x_cd
         self.y_cd = y_cd
         self.refpar = refpar
+
 
 class RRT :
     def __init__(self, start, goal, img_arr, step):
@@ -30,8 +32,6 @@ class RRT :
     #Function to continue the algorithm for a specified number of iterations
     def cont(self, max_time):
         pass
-
-
 
 
 #Reading the image and converting it into grayscale.
