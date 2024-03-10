@@ -2,7 +2,8 @@ cv-winschool-project
 ------------
 ------------
 
- For Winter School Projects
+For Winter School Projects
+Contains documenation for the Projects.
 
 Medial-Axis-Detection
 ---------------------
