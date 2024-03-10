@@ -22,12 +22,13 @@ Medial-Axis-Detection
 
  ## Background subtraction
  A direct background subtraction method is applied from the OpenCV library.
- Other cleaning functions caught more noise than this method.
+ Other functions caught more noise than this method.
 
- Manual background subtraction using frame differences lead to worse quality and bad frames,       because in the frames the environment also is changing and it is also captured in addition to the desired object.
+ Manual background subtraction using frame differences lead to worse quality and bad frames, because in the frames the environment also is changing and it is also captured in addition to the desired object.
 
  ## Cleaning the Image
  A direct cleaning function 'cv.erode' is used to clean the image from the Open CV Library
+ The erode function worked better than other options available.
 
  ## Detecting the edges on the Image
  To detect the edges, Sobel Filters were used first.
@@ -65,6 +66,9 @@ Medial-Axis-Detection
  (The Hough Space detect function has some error to be debugged due to which it is not able to return the lines.
  There is a index out of range error on running the Hough Space function.)
 
+ Alternative that was tried, was to draw best fit lines for the edges in the region of the object but with the inaccuracy of the edge detection and other noises did not work.
+
+ 
  Features/Parts not working or not added.
   1. Hough Space function
   2. If the inbuilt functions are added, the edges of the object and the line(two in total) are drawn, taking the average of these two lines and marking the medial axis is not in the code. The average method would also not work with Hough Space because the order or the edges cannot be known without printing them out.
@@ -80,6 +84,8 @@ Global Planner
 
 The code includes classes to define the RRT algorithm and the Tree data structure used here.
 
+class implementation : [https://stackoverflow.com/questions/30258788/class-attributes-and-their-initialization]
+
 # 'class Node'
   It includes an implementation of a Tree data structure
   In this case, a tree node would have a x-coordinate and a y-coordinate and children nodes and parent node(s).
@@ -90,6 +96,8 @@ The code includes classes to define the RRT algorithm and the Tree data structur
   Also Tried _set_nextnode_ function(not inbuilt) to set the parent value to the previous node,
   but wasn't able to read through python documenatations on getting around this error.
 Alternatively used _self.par=[]_ to assign an empty list and append the nearest node to it.
+Other Alternatives that I tried were forward referencing in python and using TypeDicts to bypass the error but were not working with the above case.
+Ref : [https://stackoverflow.com/questions/2482602/a-general-tree-implementation]
 
 # 'class RRT'
  It includes the implementation of the RRT Algorithm and its functions
@@ -110,6 +118,7 @@ Alternatively used _self.par=[]_ to assign an empty list and append the nearest 
  # _sample()_
  The function is to randomly sample points in the space, but because a basic random function is used it takes more time that it would have taken if a generator biased towards the free space was used.
  This returns a newly sampled point.
+ Ref : [https://docs.python.org/3.9/library/random.html#module-random]
 
  `Works`
 
@@ -163,6 +172,7 @@ Loop used to mark all the points with the lowest intensity to be roads/free spac
 The lowest intensity range is used to mark the roads because the bitwise_not operator assigned the roads from the original with lowest intensities.
 
 Used Matplotlib.pyplot to get the _start_ point and the _goal_ point.
+Ref : [https://www.w3schools.com/python/matplotlib_pyplot.asp]
 
 `Works`
 
@@ -178,6 +188,8 @@ Summary of the problems :
 2. The _sample()_ function is slow.
 3. The _addchild()_ function assigns _NoneType_ value to the parent nodes which cause subsequent problems.
 4. The _retrace()_ function does not work in its entirety.
+
+Video used for reference : [https://www.youtube.com/watch?v=OXikozpLFGo&t=1395s]
 
 The above codes do not work completely, parts of them work.
 
