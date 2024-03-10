@@ -101,7 +101,6 @@ def changespace(radius: np.ndarray, angle: np.ndarray, cv2_setup: bool = True) -
     return radius * np.array([np.sin(angle), np.cos(angle)])
 
 
-
 condition = input("Y/N")
 if condition == "Y":
     Process("axis_1.mp4")
