@@ -31,7 +31,7 @@ class RRT:
     #function to add child to the parent
     def addchild(self, xc, yc):
         print(xc, yc)
-        if self.goal.x_cd == xc:  #checking if the current node is the goal node
+        if self.goal.x_cd == xc and seld.goal.y_cd == yc:  #checking if the current node is the goal node
             self.nearestNode[0].child.append(self.goal)
             self.goal.par.append(self.nearestNode[0])
         else:
@@ -80,7 +80,7 @@ class RRT:
     #Function to find the unit vector from the prev node and the sampled point
     def unitVec(self, l_start, lend):
         unit_v = np.array([lend[0]-l_start.x_cd, lend[1]-l_start.y_cd])
-        unit_v = unit_v/np.linalg.norm(unit_v)
+        unit_v = unit_v/self.euc_dist(l_start, lend)
         return unit_v
 
     #Function to find nearest node from the sampled point
